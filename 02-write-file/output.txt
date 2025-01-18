@@ -1,0 +1,6 @@
+hello
+how are yo
+some text
+exit
+hello
+go on
