@@ -24,6 +24,7 @@ async function getDir() {
   }
   return chekFolder;
 }
+
 async function createDir(DirIsReal, projectPath) {
   let creationDir = '';
   try {
@@ -44,11 +45,10 @@ async function copyFiles(src, des) {
     const files = await fs.readdir(srcPath, { withFileTypes: true });
     await fs.mkdir(des, { recursive: true });
     for (let file of files) {
-      const srcFilePath = path.join(src, file.name);
-      const desFilePath = path.join(des, file.name);
+      const srcFilePath = path.join(srcPath, file.name);
+      const desFilePath = path.resolve(des, file.name);
 
       if (file.isFile()) {
-        // Копируем файл
         await fs.copyFile(srcFilePath, desFilePath);
         console.log(`File copied: ${file.name}`);
       }
@@ -61,9 +61,9 @@ async function copyFiles(src, des) {
 (async () => {
   const folderCopy = await getDir();
   if (!folderCopy) {
-    console.log('no folders in project dir');
+    console.log('No folders in project dir');
   }
   const newDir = await createDir(folderCopy, projectDir);
   console.log('Dir for copy created: ', newDir);
-  const isFileCopyed = await copyFiles(folderCopy, newDir);
+  await copyFiles(folderCopy, newDir);
 })();
