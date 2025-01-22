@@ -9,7 +9,16 @@ async function getDir() {
     let isFolder = false;
     const items = await fs.readdir(projectDir, { withFileTypes: true });
     for (const item of items) {
-      if (item.isDirectory()) {
+      if (item.isDirectory() && item.name === 'files-copy') {
+        await fs.rm(path.join(projectDir, 'files-copy'), {
+          recursive: true,
+          force: true,
+        });
+        console.log(
+          'Folder copy-files already exist and will be overwrite and update',
+        );
+      }
+      if (item.isDirectory() && item.name === 'files') {
         //queryFolderName.push(file.name); if you have some folders.
         chekFolder = item.name;
         isFolder = true;
@@ -27,9 +36,9 @@ async function getDir() {
 
 async function createDir(DirIsReal, projectPath) {
   let creationDir = '';
+  const pathToCreatedDir = path.join(projectPath, 'files-copy');
   try {
     if (DirIsReal) {
-      const pathToCreatedDir = path.join(projectPath, 'files-copy');
       creationDir = await fs.mkdir(pathToCreatedDir, { recursive: true });
     }
     //console.log(creationDir);
