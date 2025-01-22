@@ -58,7 +58,7 @@ async function copyFiles(src, des) {
       const desFilePath = path.resolve(des, file.name);
 
       if (file.isFile()) {
-        await fs.copyFile(srcFilePath, desFilePath);
+        await fs.copyFiles(srcFilePath, desFilePath);
         console.log(`File copied: ${file.name}`);
       }
     }
